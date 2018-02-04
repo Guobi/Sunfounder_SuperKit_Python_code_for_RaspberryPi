@@ -27,6 +27,7 @@ LED0 = [0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80]	#original mode
 LED1 = [0x01,0x03,0x07,0x0f,0x1f,0x3f,0x7f,0xff]	#blink mode 1
 LED2 = [0x01,0x05,0x15,0x55,0xb5,0xf5,0xfb,0xff]	#blink mode 2
 LED3 = [0x02,0x03,0x0b,0x0f,0x2f,0x3f,0xbf,0xff]	#blink mode 3
+listLED = [LED0, LED1, LED2, LED3]
 #=================================================
 
 def print_msg():
@@ -55,9 +56,15 @@ def hc595_out():
 	GPIO.output(RCLK, GPIO.LOW)
 
 def loop():
-	WhichLeds = LED0	# Change Mode, modes from LED0 to LED3
 	sleeptime = 0.1		# Change speed, lower value, faster speed
+	index = 0
 	while True:
+		WhichLeds = listLED[index]	# Change Mode, modes from LED0 to LED3
+		print(index)
+		print(WhichLeds)
+		index += 1
+		index %= 4
+
 		for i in range(0, len(WhichLeds)):
 			hc595_in(WhichLeds[i])
 			hc595_out()
